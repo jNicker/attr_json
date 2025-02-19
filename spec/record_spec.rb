@@ -242,12 +242,15 @@ RSpec.describe AttrJson::Record do
 
   it "can define without triggering a db connection" do
     expect(ActiveRecord::Base).not_to receive(:connection)
+    expect(ActiveRecord::Type).not_to receive(:current_adapter_name)
 
     Class.new(ActiveRecord::Base) do
       include AttrJson::Record
 
       self.table_name = "products"
       attr_json :value, :string
+      attr_json :datetime_value, :datetime
+      attr_json :time_value, :time
     end
   end
 
